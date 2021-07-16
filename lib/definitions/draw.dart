@@ -72,11 +72,36 @@ class DrawDef {
     this.maskFilterDef
   });
 
-  factory DrawDef.fromJson(Map<String, dynamic> json) => _$DrawDefFromJson(json);
   Map<String, dynamic> toJson() => _$DrawDefToJson(this);
-}
 
-// Draw settings
+  factory DrawDef.fromJson(Map<String, dynamic> json) {
+    switch (json['drawType'] as String) {
+      case 'Text':
+        return DrawTextDef.fromJson(json);
+      case 'Rect':
+        return DrawRectDef.fromJson(json);
+      case 'RRect':
+        return DrawRrectDef.fromJson(json);
+      case 'DRRect':
+        return DrawDRRectDef.fromJson(json);
+      case 'Arc':
+        return DrawArcDef.fromJson(json);
+      case 'Circle':
+        return DrawCircleDef.fromJson(json);
+      case 'Color':
+        return DrawColorDef.fromJson(json);
+      case 'Line':
+        return DrawLineDef.fromJson(json);
+      case 'Oval':
+        return DrawOvalDef.fromJson(json);
+      case 'Path':
+        return DrawPathDef.fromJson(json);
+    }
+
+    throw ArgumentError(
+        'Could not found draw type. Please check draw type value from JSON.');
+  }
+}
 
 enum FontWeightType {
   bold,
