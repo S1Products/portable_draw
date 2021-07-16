@@ -12,36 +12,6 @@ DrawDef _$DrawDefFromJson(Map<String, dynamic> json) {
     paintDef: json['paintDef'] == null
         ? null
         : PaintDef.fromJson(json['paintDef'] as Map<String, dynamic>),
-    textDef: json['textDef'] == null
-        ? null
-        : DrawTextDef.fromJson(json['textDef'] as Map<String, dynamic>),
-    arcDef: json['arcDef'] == null
-        ? null
-        : DrawArcDef.fromJson(json['arcDef'] as Map<String, dynamic>),
-    circleDef: json['circleDef'] == null
-        ? null
-        : DrawCircleDef.fromJson(json['circleDef'] as Map<String, dynamic>),
-    colorDef: json['colorDef'] == null
-        ? null
-        : DrawColorDef.fromJson(json['colorDef'] as Map<String, dynamic>),
-    lineDef: json['lineDef'] == null
-        ? null
-        : DrawLineDef.fromJson(json['lineDef'] as Map<String, dynamic>),
-    ovalDef: json['ovalDef'] == null
-        ? null
-        : DrawOvalDef.fromJson(json['ovalDef'] as Map<String, dynamic>),
-    pathDef: json['pathDef'] == null
-        ? null
-        : DrawPathDef.fromJson(json['pathDef'] as Map<String, dynamic>),
-    rectDef: json['rectDef'] == null
-        ? null
-        : DrawRectDef.fromJson(json['rectDef'] as Map<String, dynamic>),
-    rrectDef: json['rrectDef'] == null
-        ? null
-        : DrawRrectDef.fromJson(json['rrectDef'] as Map<String, dynamic>),
-    drrectDef: json['drrectDef'] == null
-        ? null
-        : DrawDRRectDef.fromJson(json['drrectDef'] as Map<String, dynamic>),
     gradientShader: json['gradientShader'] == null
         ? null
         : GradientShader.fromJson(
@@ -55,16 +25,6 @@ DrawDef _$DrawDefFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$DrawDefToJson(DrawDef instance) => <String, dynamic>{
       'drawType': _$DrawTypeEnumMap[instance.drawType],
       'paintDef': instance.paintDef?.toJson(),
-      'textDef': instance.textDef?.toJson(),
-      'arcDef': instance.arcDef?.toJson(),
-      'circleDef': instance.circleDef?.toJson(),
-      'colorDef': instance.colorDef?.toJson(),
-      'lineDef': instance.lineDef?.toJson(),
-      'ovalDef': instance.ovalDef?.toJson(),
-      'pathDef': instance.pathDef?.toJson(),
-      'rectDef': instance.rectDef?.toJson(),
-      'rrectDef': instance.rrectDef?.toJson(),
-      'drrectDef': instance.drrectDef?.toJson(),
       'gradientShader': instance.gradientShader?.toJson(),
       'maskFilterDef': instance.maskFilterDef?.toJson(),
     };
@@ -150,6 +110,14 @@ const _$StrokeCapEnumMap = {
 
 DrawTextDef _$DrawTextDefFromJson(Map<String, dynamic> json) {
   return DrawTextDef(
+    paintDef: PaintDef.fromJson(json['paintDef'] as Map<String, dynamic>),
+    gradientShader: json['gradientShader'] == null
+        ? null
+        : GradientShader.fromJson(
+            json['gradientShader'] as Map<String, dynamic>),
+    maskFilterDef: json['maskFilterDef'] == null
+        ? null
+        : MaskFilterDef.fromJson(json['maskFilterDef'] as Map<String, dynamic>),
     text: json['text'] as String,
     color: json['color'] as int? ?? 0,
     offset: OffsetDef.fromJson(json['offset'] as Map<String, dynamic>),
@@ -167,11 +135,15 @@ DrawTextDef _$DrawTextDefFromJson(Map<String, dynamic> json) {
             TextDirection.ltr,
     boxFit:
         _$enumDecodeNullable(_$BoxFitEnumMap, json['boxFit']) ?? BoxFit.fill,
-  );
+  )..drawType = _$enumDecode(_$DrawTypeEnumMap, json['drawType']);
 }
 
 Map<String, dynamic> _$DrawTextDefToJson(DrawTextDef instance) =>
     <String, dynamic>{
+      'drawType': _$DrawTypeEnumMap[instance.drawType],
+      'paintDef': instance.paintDef?.toJson(),
+      'gradientShader': instance.gradientShader?.toJson(),
+      'maskFilterDef': instance.maskFilterDef?.toJson(),
       'text': instance.text,
       'color': instance.color,
       'fontWeightType': _$FontWeightTypeEnumMap[instance.fontWeightType],
@@ -229,17 +201,29 @@ const _$BoxFitEnumMap = {
 
 DrawArcDef _$DrawArcDefFromJson(Map<String, dynamic> json) {
   return DrawArcDef(
+    paintDef: PaintDef.fromJson(json['paintDef'] as Map<String, dynamic>),
+    gradientShader: json['gradientShader'] == null
+        ? null
+        : GradientShader.fromJson(
+            json['gradientShader'] as Map<String, dynamic>),
+    maskFilterDef: json['maskFilterDef'] == null
+        ? null
+        : MaskFilterDef.fromJson(json['maskFilterDef'] as Map<String, dynamic>),
     rect: RectDef.fromJson(json['rect'] as Map<String, dynamic>),
     startAngle: (json['startAngle'] as num).toDouble(),
     sweepAngle: (json['sweepAngle'] as num).toDouble(),
     useCenter: json['useCenter'] as bool? ?? false,
     boxFit:
         _$enumDecodeNullable(_$BoxFitEnumMap, json['boxFit']) ?? BoxFit.fill,
-  );
+  )..drawType = _$enumDecode(_$DrawTypeEnumMap, json['drawType']);
 }
 
 Map<String, dynamic> _$DrawArcDefToJson(DrawArcDef instance) =>
     <String, dynamic>{
+      'drawType': _$DrawTypeEnumMap[instance.drawType],
+      'paintDef': instance.paintDef?.toJson(),
+      'gradientShader': instance.gradientShader?.toJson(),
+      'maskFilterDef': instance.maskFilterDef?.toJson(),
       'rect': instance.rect.toJson(),
       'startAngle': instance.startAngle,
       'sweepAngle': instance.sweepAngle,
@@ -249,15 +233,27 @@ Map<String, dynamic> _$DrawArcDefToJson(DrawArcDef instance) =>
 
 DrawCircleDef _$DrawCircleDefFromJson(Map<String, dynamic> json) {
   return DrawCircleDef(
+    paintDef: PaintDef.fromJson(json['paintDef'] as Map<String, dynamic>),
+    gradientShader: json['gradientShader'] == null
+        ? null
+        : GradientShader.fromJson(
+            json['gradientShader'] as Map<String, dynamic>),
+    maskFilterDef: json['maskFilterDef'] == null
+        ? null
+        : MaskFilterDef.fromJson(json['maskFilterDef'] as Map<String, dynamic>),
     offset: OffsetDef.fromJson(json['offset'] as Map<String, dynamic>),
     radius: (json['radius'] as num).toDouble(),
     boxFit:
         _$enumDecodeNullable(_$BoxFitEnumMap, json['boxFit']) ?? BoxFit.fill,
-  );
+  )..drawType = _$enumDecode(_$DrawTypeEnumMap, json['drawType']);
 }
 
 Map<String, dynamic> _$DrawCircleDefToJson(DrawCircleDef instance) =>
     <String, dynamic>{
+      'drawType': _$DrawTypeEnumMap[instance.drawType],
+      'paintDef': instance.paintDef?.toJson(),
+      'gradientShader': instance.gradientShader?.toJson(),
+      'maskFilterDef': instance.maskFilterDef?.toJson(),
       'offset': instance.offset.toJson(),
       'radius': instance.radius,
       'boxFit': _$BoxFitEnumMap[instance.boxFit],
@@ -265,13 +261,25 @@ Map<String, dynamic> _$DrawCircleDefToJson(DrawCircleDef instance) =>
 
 DrawColorDef _$DrawColorDefFromJson(Map<String, dynamic> json) {
   return DrawColorDef(
+    paintDef: PaintDef.fromJson(json['paintDef'] as Map<String, dynamic>),
+    gradientShader: json['gradientShader'] == null
+        ? null
+        : GradientShader.fromJson(
+            json['gradientShader'] as Map<String, dynamic>),
+    maskFilterDef: json['maskFilterDef'] == null
+        ? null
+        : MaskFilterDef.fromJson(json['maskFilterDef'] as Map<String, dynamic>),
     color: json['color'] as int,
     blendMode: _$enumDecode(_$BlendModeEnumMap, json['blendMode']),
-  );
+  )..drawType = _$enumDecode(_$DrawTypeEnumMap, json['drawType']);
 }
 
 Map<String, dynamic> _$DrawColorDefToJson(DrawColorDef instance) =>
     <String, dynamic>{
+      'drawType': _$DrawTypeEnumMap[instance.drawType],
+      'paintDef': instance.paintDef?.toJson(),
+      'gradientShader': instance.gradientShader?.toJson(),
+      'maskFilterDef': instance.maskFilterDef?.toJson(),
       'color': instance.color,
       'blendMode': _$BlendModeEnumMap[instance.blendMode],
     };
@@ -310,17 +318,29 @@ const _$BlendModeEnumMap = {
 
 DrawDRRectDef _$DrawDRRectDefFromJson(Map<String, dynamic> json) {
   return DrawDRRectDef(
+    paintDef: PaintDef.fromJson(json['paintDef'] as Map<String, dynamic>),
+    gradientShader: json['gradientShader'] == null
+        ? null
+        : GradientShader.fromJson(
+            json['gradientShader'] as Map<String, dynamic>),
+    maskFilterDef: json['maskFilterDef'] == null
+        ? null
+        : MaskFilterDef.fromJson(json['maskFilterDef'] as Map<String, dynamic>),
     outerRect: RectDef.fromJson(json['outerRect'] as Map<String, dynamic>),
     outerRadius: (json['outerRadius'] as num).toDouble(),
     innerRect: RectDef.fromJson(json['innerRect'] as Map<String, dynamic>),
     innerRadius: (json['innerRadius'] as num).toDouble(),
     boxFit:
         _$enumDecodeNullable(_$BoxFitEnumMap, json['boxFit']) ?? BoxFit.fill,
-  );
+  )..drawType = _$enumDecode(_$DrawTypeEnumMap, json['drawType']);
 }
 
 Map<String, dynamic> _$DrawDRRectDefToJson(DrawDRRectDef instance) =>
     <String, dynamic>{
+      'drawType': _$DrawTypeEnumMap[instance.drawType],
+      'paintDef': instance.paintDef?.toJson(),
+      'gradientShader': instance.gradientShader?.toJson(),
+      'maskFilterDef': instance.maskFilterDef?.toJson(),
       'outerRect': instance.outerRect.toJson(),
       'outerRadius': instance.outerRadius,
       'innerRect': instance.innerRect.toJson(),
@@ -330,15 +350,27 @@ Map<String, dynamic> _$DrawDRRectDefToJson(DrawDRRectDef instance) =>
 
 DrawLineDef _$DrawLineDefFromJson(Map<String, dynamic> json) {
   return DrawLineDef(
+    paintDef: PaintDef.fromJson(json['paintDef'] as Map<String, dynamic>),
+    gradientShader: json['gradientShader'] == null
+        ? null
+        : GradientShader.fromJson(
+            json['gradientShader'] as Map<String, dynamic>),
+    maskFilterDef: json['maskFilterDef'] == null
+        ? null
+        : MaskFilterDef.fromJson(json['maskFilterDef'] as Map<String, dynamic>),
     offset1: OffsetDef.fromJson(json['offset1'] as Map<String, dynamic>),
     offset2: OffsetDef.fromJson(json['offset2'] as Map<String, dynamic>),
     boxFit:
         _$enumDecodeNullable(_$BoxFitEnumMap, json['boxFit']) ?? BoxFit.fill,
-  );
+  )..drawType = _$enumDecode(_$DrawTypeEnumMap, json['drawType']);
 }
 
 Map<String, dynamic> _$DrawLineDefToJson(DrawLineDef instance) =>
     <String, dynamic>{
+      'drawType': _$DrawTypeEnumMap[instance.drawType],
+      'paintDef': instance.paintDef?.toJson(),
+      'gradientShader': instance.gradientShader?.toJson(),
+      'maskFilterDef': instance.maskFilterDef?.toJson(),
       'offset1': instance.offset1.toJson(),
       'offset2': instance.offset2.toJson(),
       'boxFit': _$BoxFitEnumMap[instance.boxFit],
@@ -346,139 +378,110 @@ Map<String, dynamic> _$DrawLineDefToJson(DrawLineDef instance) =>
 
 DrawOvalDef _$DrawOvalDefFromJson(Map<String, dynamic> json) {
   return DrawOvalDef(
+    paintDef: PaintDef.fromJson(json['paintDef'] as Map<String, dynamic>),
+    gradientShader: json['gradientShader'] == null
+        ? null
+        : GradientShader.fromJson(
+            json['gradientShader'] as Map<String, dynamic>),
+    maskFilterDef: json['maskFilterDef'] == null
+        ? null
+        : MaskFilterDef.fromJson(json['maskFilterDef'] as Map<String, dynamic>),
     rect: RectDef.fromJson(json['rect'] as Map<String, dynamic>),
     boxFit:
         _$enumDecodeNullable(_$BoxFitEnumMap, json['boxFit']) ?? BoxFit.fill,
-  );
+  )..drawType = _$enumDecode(_$DrawTypeEnumMap, json['drawType']);
 }
 
 Map<String, dynamic> _$DrawOvalDefToJson(DrawOvalDef instance) =>
     <String, dynamic>{
+      'drawType': _$DrawTypeEnumMap[instance.drawType],
+      'paintDef': instance.paintDef?.toJson(),
+      'gradientShader': instance.gradientShader?.toJson(),
+      'maskFilterDef': instance.maskFilterDef?.toJson(),
       'rect': instance.rect.toJson(),
       'boxFit': _$BoxFitEnumMap[instance.boxFit],
     };
 
 DrawPathDef _$DrawPathDefFromJson(Map<String, dynamic> json) {
   return DrawPathDef(
+    paintDef: PaintDef.fromJson(json['paintDef'] as Map<String, dynamic>),
+    gradientShader: json['gradientShader'] == null
+        ? null
+        : GradientShader.fromJson(
+            json['gradientShader'] as Map<String, dynamic>),
+    maskFilterDef: json['maskFilterDef'] == null
+        ? null
+        : MaskFilterDef.fromJson(json['maskFilterDef'] as Map<String, dynamic>),
     pathDefList: (json['pathDefList'] as List<dynamic>)
         .map((e) => PathDef.fromJson(e as Map<String, dynamic>))
         .toList(),
     boxFit:
         _$enumDecodeNullable(_$BoxFitEnumMap, json['boxFit']) ?? BoxFit.fill,
-  );
+  )..drawType = _$enumDecode(_$DrawTypeEnumMap, json['drawType']);
 }
 
 Map<String, dynamic> _$DrawPathDefToJson(DrawPathDef instance) =>
     <String, dynamic>{
+      'drawType': _$DrawTypeEnumMap[instance.drawType],
+      'paintDef': instance.paintDef?.toJson(),
+      'gradientShader': instance.gradientShader?.toJson(),
+      'maskFilterDef': instance.maskFilterDef?.toJson(),
       'pathDefList': instance.pathDefList.map((e) => e.toJson()).toList(),
       'boxFit': _$BoxFitEnumMap[instance.boxFit],
     };
 
 DrawRectDef _$DrawRectDefFromJson(Map<String, dynamic> json) {
   return DrawRectDef(
+    paintDef: PaintDef.fromJson(json['paintDef'] as Map<String, dynamic>),
+    gradientShader: json['gradientShader'] == null
+        ? null
+        : GradientShader.fromJson(
+            json['gradientShader'] as Map<String, dynamic>),
+    maskFilterDef: json['maskFilterDef'] == null
+        ? null
+        : MaskFilterDef.fromJson(json['maskFilterDef'] as Map<String, dynamic>),
     rect: RectDef.fromJson(json['rect'] as Map<String, dynamic>),
     boxFit:
         _$enumDecodeNullable(_$BoxFitEnumMap, json['boxFit']) ?? BoxFit.fill,
-  );
+  )..drawType = _$enumDecode(_$DrawTypeEnumMap, json['drawType']);
 }
 
 Map<String, dynamic> _$DrawRectDefToJson(DrawRectDef instance) =>
     <String, dynamic>{
+      'drawType': _$DrawTypeEnumMap[instance.drawType],
+      'paintDef': instance.paintDef?.toJson(),
+      'gradientShader': instance.gradientShader?.toJson(),
+      'maskFilterDef': instance.maskFilterDef?.toJson(),
       'rect': instance.rect.toJson(),
       'boxFit': _$BoxFitEnumMap[instance.boxFit],
     };
 
 DrawRrectDef _$DrawRrectDefFromJson(Map<String, dynamic> json) {
   return DrawRrectDef(
+    paintDef: PaintDef.fromJson(json['paintDef'] as Map<String, dynamic>),
+    gradientShader: json['gradientShader'] == null
+        ? null
+        : GradientShader.fromJson(
+            json['gradientShader'] as Map<String, dynamic>),
+    maskFilterDef: json['maskFilterDef'] == null
+        ? null
+        : MaskFilterDef.fromJson(json['maskFilterDef'] as Map<String, dynamic>),
     rect: RectDef.fromJson(json['rect'] as Map<String, dynamic>),
     radius: (json['radius'] as num).toDouble(),
     boxFit:
         _$enumDecodeNullable(_$BoxFitEnumMap, json['boxFit']) ?? BoxFit.fill,
-  );
+  )..drawType = _$enumDecode(_$DrawTypeEnumMap, json['drawType']);
 }
 
 Map<String, dynamic> _$DrawRrectDefToJson(DrawRrectDef instance) =>
     <String, dynamic>{
+      'drawType': _$DrawTypeEnumMap[instance.drawType],
+      'paintDef': instance.paintDef?.toJson(),
+      'gradientShader': instance.gradientShader?.toJson(),
+      'maskFilterDef': instance.maskFilterDef?.toJson(),
       'rect': instance.rect.toJson(),
       'radius': instance.radius,
       'boxFit': _$BoxFitEnumMap[instance.boxFit],
-    };
-
-GradientShader _$GradientShaderFromJson(Map<String, dynamic> json) {
-  return GradientShader(
-    gradientType: _$enumDecode(_$GradientTypeEnumMap, json['gradientType']),
-    rect: RectDef.fromJson(json['rect'] as Map<String, dynamic>),
-    boxFit: _$enumDecode(_$BoxFitEnumMap, json['boxFit']),
-    linearGradient: json['linearGradient'] == null
-        ? null
-        : LinearGradientDef.fromJson(
-            json['linearGradient'] as Map<String, dynamic>),
-    radialGradient: json['radialGradient'] == null
-        ? null
-        : RadialGradientDef.fromJson(
-            json['radialGradient'] as Map<String, dynamic>),
-  );
-}
-
-Map<String, dynamic> _$GradientShaderToJson(GradientShader instance) =>
-    <String, dynamic>{
-      'rect': instance.rect.toJson(),
-      'boxFit': _$BoxFitEnumMap[instance.boxFit],
-      'gradientType': _$GradientTypeEnumMap[instance.gradientType],
-      'linearGradient': instance.linearGradient?.toJson(),
-      'radialGradient': instance.radialGradient?.toJson(),
-    };
-
-const _$GradientTypeEnumMap = {
-  GradientType.Linear: 'Linear',
-  GradientType.Radial: 'Radial',
-};
-
-LinearGradientDef _$LinearGradientDefFromJson(Map<String, dynamic> json) {
-  return LinearGradientDef(
-    begin: AlignmentDef.fromJson(json['begin'] as Map<String, dynamic>),
-    end: AlignmentDef.fromJson(json['end'] as Map<String, dynamic>),
-    gradientColorList: (json['gradientColorList'] as List<dynamic>)
-        .map((e) => GradientColorDef.fromJson(e as Map<String, dynamic>))
-        .toList(),
-    tileMode: _$enumDecode(_$TileModeEnumMap, json['tileMode']),
-  );
-}
-
-Map<String, dynamic> _$LinearGradientDefToJson(LinearGradientDef instance) =>
-    <String, dynamic>{
-      'begin': instance.begin.toJson(),
-      'end': instance.end.toJson(),
-      'gradientColorList':
-          instance.gradientColorList.map((e) => e.toJson()).toList(),
-      'tileMode': _$TileModeEnumMap[instance.tileMode],
-    };
-
-const _$TileModeEnumMap = {
-  TileMode.clamp: 'clamp',
-  TileMode.repeated: 'repeated',
-  TileMode.mirror: 'mirror',
-  TileMode.decal: 'decal',
-};
-
-RadialGradientDef _$RadialGradientDefFromJson(Map<String, dynamic> json) {
-  return RadialGradientDef(
-    center: PointDef.fromJson(json['center'] as Map<String, dynamic>),
-    radius: (json['radius'] as num).toDouble(),
-    gradientColorList: (json['gradientColorList'] as List<dynamic>)
-        .map((e) => GradientColorDef.fromJson(e as Map<String, dynamic>))
-        .toList(),
-    tileMode: _$enumDecode(_$TileModeEnumMap, json['tileMode']),
-  );
-}
-
-Map<String, dynamic> _$RadialGradientDefToJson(RadialGradientDef instance) =>
-    <String, dynamic>{
-      'center': instance.center.toJson(),
-      'radius': instance.radius,
-      'gradientColorList':
-          instance.gradientColorList.map((e) => e.toJson()).toList(),
-      'tileMode': _$TileModeEnumMap[instance.tileMode],
     };
 
 MaskFilterDef _$MaskFilterDefFromJson(Map<String, dynamic> json) {
