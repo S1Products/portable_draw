@@ -6,27 +6,22 @@ part of 'draw.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-DrawDef _$DrawDefFromJson(Map<String, dynamic> json) {
-  return DrawDef(
-    drawType: _$enumDecode(_$DrawTypeEnumMap, json['drawType']),
-    paintDef: json['paintDef'] == null
-        ? null
-        : PaintDef.fromJson(json['paintDef'] as Map<String, dynamic>),
-    gradientShader: json['gradientShader'] == null
-        ? null
-        : GradientShader.fromJson(
-            json['gradientShader'] as Map<String, dynamic>),
-    maskFilterDef: json['maskFilterDef'] == null
-        ? null
-        : MaskFilterDef.fromJson(json['maskFilterDef'] as Map<String, dynamic>),
+PaintDef _$PaintDefFromJson(Map<String, dynamic> json) {
+  return PaintDef(
+    color: json['color'] as int? ?? 0,
+    paintingStyle:
+        _$enumDecodeNullable(_$PaintingStyleEnumMap, json['paintingStyle']) ??
+            PaintingStyle.fill,
+    strokeWidth: (json['strokeWidth'] as num?)?.toDouble() ?? 1,
+    strokeCap: _$enumDecode(_$StrokeCapEnumMap, json['strokeCap']),
   );
 }
 
-Map<String, dynamic> _$DrawDefToJson(DrawDef instance) => <String, dynamic>{
-      'drawType': _$DrawTypeEnumMap[instance.drawType],
-      'paintDef': instance.paintDef?.toJson(),
-      'gradientShader': instance.gradientShader?.toJson(),
-      'maskFilterDef': instance.maskFilterDef?.toJson(),
+Map<String, dynamic> _$PaintDefToJson(PaintDef instance) => <String, dynamic>{
+      'color': instance.color,
+      'paintingStyle': _$PaintingStyleEnumMap[instance.paintingStyle],
+      'strokeWidth': instance.strokeWidth,
+      'strokeCap': _$StrokeCapEnumMap[instance.strokeCap],
     };
 
 K _$enumDecode<K, V>(
@@ -55,37 +50,6 @@ K _$enumDecode<K, V>(
   ).key;
 }
 
-const _$DrawTypeEnumMap = {
-  DrawType.Text: 'Text',
-  DrawType.Rect: 'Rect',
-  DrawType.RRect: 'RRect',
-  DrawType.DRRect: 'DRRect',
-  DrawType.Arc: 'Arc',
-  DrawType.Circle: 'Circle',
-  DrawType.Color: 'Color',
-  DrawType.Line: 'Line',
-  DrawType.Oval: 'Oval',
-  DrawType.Path: 'Path',
-};
-
-PaintDef _$PaintDefFromJson(Map<String, dynamic> json) {
-  return PaintDef(
-    color: json['color'] as int? ?? 0,
-    paintingStyle:
-        _$enumDecodeNullable(_$PaintingStyleEnumMap, json['paintingStyle']) ??
-            PaintingStyle.fill,
-    strokeWidth: (json['strokeWidth'] as num?)?.toDouble() ?? 1,
-    strokeCap: _$enumDecode(_$StrokeCapEnumMap, json['strokeCap']),
-  );
-}
-
-Map<String, dynamic> _$PaintDefToJson(PaintDef instance) => <String, dynamic>{
-      'color': instance.color,
-      'paintingStyle': _$PaintingStyleEnumMap[instance.paintingStyle],
-      'strokeWidth': instance.strokeWidth,
-      'strokeCap': _$StrokeCapEnumMap[instance.strokeCap],
-    };
-
 K? _$enumDecodeNullable<K, V>(
   Map<K, V> enumValues,
   dynamic source, {
@@ -106,6 +70,42 @@ const _$StrokeCapEnumMap = {
   StrokeCap.butt: 'butt',
   StrokeCap.round: 'round',
   StrokeCap.square: 'square',
+};
+
+DrawDef _$DrawDefFromJson(Map<String, dynamic> json) {
+  return DrawDef(
+    drawType: _$enumDecode(_$DrawTypeEnumMap, json['drawType']),
+    paintDef: json['paintDef'] == null
+        ? null
+        : PaintDef.fromJson(json['paintDef'] as Map<String, dynamic>),
+    gradientShader: json['gradientShader'] == null
+        ? null
+        : GradientShader.fromJson(
+            json['gradientShader'] as Map<String, dynamic>),
+    maskFilterDef: json['maskFilterDef'] == null
+        ? null
+        : MaskFilterDef.fromJson(json['maskFilterDef'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$DrawDefToJson(DrawDef instance) => <String, dynamic>{
+      'drawType': _$DrawTypeEnumMap[instance.drawType],
+      'paintDef': instance.paintDef?.toJson(),
+      'gradientShader': instance.gradientShader?.toJson(),
+      'maskFilterDef': instance.maskFilterDef?.toJson(),
+    };
+
+const _$DrawTypeEnumMap = {
+  DrawType.Text: 'Text',
+  DrawType.Rect: 'Rect',
+  DrawType.RRect: 'RRect',
+  DrawType.DRRect: 'DRRect',
+  DrawType.Arc: 'Arc',
+  DrawType.Circle: 'Circle',
+  DrawType.Color: 'Color',
+  DrawType.Line: 'Line',
+  DrawType.Oval: 'Oval',
+  DrawType.Path: 'Path',
 };
 
 DrawTextDef _$DrawTextDefFromJson(Map<String, dynamic> json) {

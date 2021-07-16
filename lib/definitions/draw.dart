@@ -12,6 +12,36 @@ import 'package:portable_draw/definitions/path.dart';
 
 part 'draw.g.dart';
 
+// Paint
+
+@JsonSerializable(explicitToJson: true)
+class PaintDef {
+
+  @JsonKey(defaultValue: 0)
+  int color;
+
+  @JsonKey(defaultValue: PaintingStyle.fill)
+  PaintingStyle paintingStyle;
+
+  @JsonKey(defaultValue: 1)
+  double strokeWidth;
+
+  @JsonKey()
+  StrokeCap strokeCap;
+
+  PaintDef({
+    this.color = 0,
+    this.paintingStyle = PaintingStyle.fill,
+    this.strokeWidth = 1,
+    this.strokeCap = StrokeCap.square
+  });
+
+  factory PaintDef.fromJson(Map<String, dynamic> json) => _$PaintDefFromJson(json);
+  Map<String, dynamic> toJson() => _$PaintDefToJson(this);
+}
+
+// Draw
+
 enum DrawType {
   Text,
   Rect,
@@ -44,34 +74,6 @@ class DrawDef {
 
   factory DrawDef.fromJson(Map<String, dynamic> json) => _$DrawDefFromJson(json);
   Map<String, dynamic> toJson() => _$DrawDefToJson(this);
-}
-
-// Paint
-
-@JsonSerializable(explicitToJson: true)
-class PaintDef {
-
-  @JsonKey(defaultValue: 0)
-  int color;
-
-  @JsonKey(defaultValue: PaintingStyle.fill)
-  PaintingStyle paintingStyle;
-
-  @JsonKey(defaultValue: 1)
-  double strokeWidth;
-
-  @JsonKey()
-  StrokeCap strokeCap;
-
-  PaintDef({
-    this.color = 0,
-    this.paintingStyle = PaintingStyle.fill,
-    this.strokeWidth = 1,
-    this.strokeCap = StrokeCap.square
-  });
-
-  factory PaintDef.fromJson(Map<String, dynamic> json) => _$PaintDefFromJson(json);
-  Map<String, dynamic> toJson() => _$PaintDefToJson(this);
 }
 
 // Draw settings

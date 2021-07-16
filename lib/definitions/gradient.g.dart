@@ -8,17 +8,9 @@ part of 'gradient.dart';
 
 GradientShader _$GradientShaderFromJson(Map<String, dynamic> json) {
   return GradientShader(
-    gradientType: _$enumDecode(_$GradientTypeEnumMap, json['gradientType']),
+    gradient: GradientDef.fromJson(json['gradient'] as Map<String, dynamic>),
     rect: RectDef.fromJson(json['rect'] as Map<String, dynamic>),
     boxFit: _$enumDecode(_$BoxFitEnumMap, json['boxFit']),
-    linearGradient: json['linearGradient'] == null
-        ? null
-        : LinearGradientDef.fromJson(
-            json['linearGradient'] as Map<String, dynamic>),
-    radialGradient: json['radialGradient'] == null
-        ? null
-        : RadialGradientDef.fromJson(
-            json['radialGradient'] as Map<String, dynamic>),
   );
 }
 
@@ -26,9 +18,7 @@ Map<String, dynamic> _$GradientShaderToJson(GradientShader instance) =>
     <String, dynamic>{
       'rect': instance.rect.toJson(),
       'boxFit': _$BoxFitEnumMap[instance.boxFit],
-      'gradientType': _$GradientTypeEnumMap[instance.gradientType],
-      'linearGradient': instance.linearGradient?.toJson(),
-      'radialGradient': instance.radialGradient?.toJson(),
+      'gradient': instance.gradient.toJson(),
     };
 
 K _$enumDecode<K, V>(
@@ -57,11 +47,6 @@ K _$enumDecode<K, V>(
   ).key;
 }
 
-const _$GradientTypeEnumMap = {
-  GradientType.Linear: 'Linear',
-  GradientType.Radial: 'Radial',
-};
-
 const _$BoxFitEnumMap = {
   BoxFit.fill: 'fill',
   BoxFit.contain: 'contain',
@@ -72,10 +57,9 @@ const _$BoxFitEnumMap = {
   BoxFit.scaleDown: 'scaleDown',
 };
 
-LinearGradientDef _$LinearGradientDefFromJson(Map<String, dynamic> json) {
-  return LinearGradientDef(
-    begin: AlignmentDef.fromJson(json['begin'] as Map<String, dynamic>),
-    end: AlignmentDef.fromJson(json['end'] as Map<String, dynamic>),
+GradientDef _$GradientDefFromJson(Map<String, dynamic> json) {
+  return GradientDef(
+    gradientType: _$enumDecode(_$GradientTypeEnumMap, json['gradientType']),
     gradientColorList: (json['gradientColorList'] as List<dynamic>)
         .map((e) => GradientColorDef.fromJson(e as Map<String, dynamic>))
         .toList(),
@@ -83,14 +67,18 @@ LinearGradientDef _$LinearGradientDefFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$LinearGradientDefToJson(LinearGradientDef instance) =>
+Map<String, dynamic> _$GradientDefToJson(GradientDef instance) =>
     <String, dynamic>{
-      'begin': instance.begin.toJson(),
-      'end': instance.end.toJson(),
+      'gradientType': _$GradientTypeEnumMap[instance.gradientType],
       'gradientColorList':
           instance.gradientColorList.map((e) => e.toJson()).toList(),
       'tileMode': _$TileModeEnumMap[instance.tileMode],
     };
+
+const _$GradientTypeEnumMap = {
+  GradientType.Linear: 'Linear',
+  GradientType.Radial: 'Radial',
+};
 
 const _$TileModeEnumMap = {
   TileMode.clamp: 'clamp',
@@ -99,22 +87,44 @@ const _$TileModeEnumMap = {
   TileMode.decal: 'decal',
 };
 
-RadialGradientDef _$RadialGradientDefFromJson(Map<String, dynamic> json) {
-  return RadialGradientDef(
-    center: PointDef.fromJson(json['center'] as Map<String, dynamic>),
-    radius: (json['radius'] as num).toDouble(),
+LinearGradientDef _$LinearGradientDefFromJson(Map<String, dynamic> json) {
+  return LinearGradientDef(
     gradientColorList: (json['gradientColorList'] as List<dynamic>)
         .map((e) => GradientColorDef.fromJson(e as Map<String, dynamic>))
         .toList(),
     tileMode: _$enumDecode(_$TileModeEnumMap, json['tileMode']),
-  );
+    begin: AlignmentDef.fromJson(json['begin'] as Map<String, dynamic>),
+    end: AlignmentDef.fromJson(json['end'] as Map<String, dynamic>),
+  )..gradientType = _$enumDecode(_$GradientTypeEnumMap, json['gradientType']);
+}
+
+Map<String, dynamic> _$LinearGradientDefToJson(LinearGradientDef instance) =>
+    <String, dynamic>{
+      'gradientType': _$GradientTypeEnumMap[instance.gradientType],
+      'gradientColorList':
+          instance.gradientColorList.map((e) => e.toJson()).toList(),
+      'tileMode': _$TileModeEnumMap[instance.tileMode],
+      'begin': instance.begin.toJson(),
+      'end': instance.end.toJson(),
+    };
+
+RadialGradientDef _$RadialGradientDefFromJson(Map<String, dynamic> json) {
+  return RadialGradientDef(
+    gradientColorList: (json['gradientColorList'] as List<dynamic>)
+        .map((e) => GradientColorDef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    tileMode: _$enumDecode(_$TileModeEnumMap, json['tileMode']),
+    center: PointDef.fromJson(json['center'] as Map<String, dynamic>),
+    radius: (json['radius'] as num).toDouble(),
+  )..gradientType = _$enumDecode(_$GradientTypeEnumMap, json['gradientType']);
 }
 
 Map<String, dynamic> _$RadialGradientDefToJson(RadialGradientDef instance) =>
     <String, dynamic>{
-      'center': instance.center.toJson(),
-      'radius': instance.radius,
+      'gradientType': _$GradientTypeEnumMap[instance.gradientType],
       'gradientColorList':
           instance.gradientColorList.map((e) => e.toJson()).toList(),
       'tileMode': _$TileModeEnumMap[instance.tileMode],
+      'center': instance.center.toJson(),
+      'radius': instance.radius,
     };

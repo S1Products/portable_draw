@@ -9,24 +9,21 @@ enum GradientType {
   Radial,
 }
 
+const String GRADIENT_TYPE_LINEAR = 'Linear';
+const String GRADIENT_TYPE_RADIAL = 'Radial';
+
 @JsonSerializable(explicitToJson: true)
 class GradientShader  {
 
   RectDef rect;
   BoxFit boxFit;
 
-  GradientType gradientType;
-
-  LinearGradientDef? linearGradient;
-
-  RadialGradientDef? radialGradient;
+  GradientDef gradient;
 
   GradientShader({
-    required this.gradientType,
+    required this.gradient,
     required this.rect,
     this.boxFit = BoxFit.fill,
-    this.linearGradient,
-    this.radialGradient
   });
 
   factory GradientShader.fromJson(Map<String, dynamic> json) => _$GradientShaderFromJson(json);
@@ -34,21 +31,51 @@ class GradientShader  {
 }
 
 @JsonSerializable(explicitToJson: true)
-class LinearGradientDef {
+class GradientDef {
+
+  GradientType gradientType;
+
+  List<GradientColorDef> gradientColorList;
+  TileMode tileMode;
+
+  GradientDef({
+    required this.gradientType,
+    required this.gradientColorList,
+    this.tileMode = TileMode.repeated
+  });
+
+  Map<String, dynamic> toJson() => _$GradientDefToJson(this);
+
+  factory GradientDef.fromJson(Map<String, dynamic> json) {
+    switch (json['gradientType'] as String) {
+      case GRADIENT_TYPE_LINEAR:
+        return LinearGradientDef.fromJson(json);
+
+      case GRADIENT_TYPE_RADIAL:
+        return RadialGradientDef.fromJson(json);
+    }
+
+    throw ArgumentError(
+        'Could not found gradient type. Please check gradient type value from JSON.');
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class LinearGradientDef extends GradientDef {
 
   AlignmentDef begin;
   AlignmentDef end;
 
-  List<GradientColorDef> gradientColorList;
-
-  TileMode tileMode;
-
   LinearGradientDef({
+    required List<GradientColorDef> gradientColorList,
+    TileMode tileMode = TileMode.repeated,
     required this.begin,
     required this.end,
-    required this.gradientColorList,
-    this.tileMode = TileMode.repeated
-  });
+  }): super(
+    gradientType: GradientType.Linear,
+    gradientColorList: gradientColorList,
+    tileMode: tileMode
+  );
 
   factory LinearGradientDef.fromJson(Map<String, dynamic> json) => _$LinearGradientDefFromJson(json);
   Map<String, dynamic> toJson() => _$LinearGradientDefToJson(this);
@@ -74,20 +101,21 @@ class LinearGradientDef {
 }
 
 @JsonSerializable(explicitToJson: true)
-class RadialGradientDef {
+class RadialGradientDef extends GradientDef {
 
   PointDef center;
   double radius;
-  List<GradientColorDef> gradientColorList;
-
-  TileMode tileMode;
 
   RadialGradientDef({
+    required List<GradientColorDef> gradientColorList,
+    TileMode tileMode = TileMode.repeated,
     required this.center,
     required this.radius,
-    required this.gradientColorList,
-    this.tileMode = TileMode.repeated
-  });
+  }): super(
+      gradientType: GradientType.Radial,
+      gradientColorList: gradientColorList,
+      tileMode: tileMode
+  );
 
   factory RadialGradientDef.fromJson(Map<String, dynamic> json) => _$RadialGradientDefFromJson(json);
   Map<String, dynamic> toJson() => _$RadialGradientDefToJson(this);
