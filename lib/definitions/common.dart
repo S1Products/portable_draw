@@ -126,7 +126,7 @@ class ScalingDef {
 }
 
 /// Hold override data for drawing JSON file.
-class OverrideValuesDef {
+class OverrideValuesMap {
 
   static const ATTRIBUTE_TEXT = 'text';
   static const ATTRIBUTE_COLOR = 'color';
@@ -136,5 +136,5 @@ class OverrideValuesDef {
 
   Map<String, Object> values = new Map();
 
-  OverrideValuesDef();
+  OverrideValuesMap();
 }

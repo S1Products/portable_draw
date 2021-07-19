@@ -1,7 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
-import 'package:json_draw/definitions/canvas.dart';
-import 'package:json_draw/definitions/common.dart';
+import 'package:portable_draw/definitions/canvas.dart';
+import 'package:portable_draw/definitions/common.dart';
 
 /// Calculate coordination with scaling.
 class CoordinateCalculator {

@@ -1,17 +1,17 @@
 
 import 'package:flutter/cupertino.dart';
-import 'package:json_draw/definitions/canvas.dart';
-import 'package:json_draw/definitions/common.dart';
-import 'package:json_draw/drawings/canvas_drawer.dart';
+import 'package:portable_draw/definitions/common.dart';
+import 'package:portable_draw/definitions/canvas.dart';
+import 'package:portable_draw/drawings/canvas_drawer.dart';
 
 class PortablePainter extends CustomPainter {
 
   final CanvasDef canvasDef;
-  final Map<String, OverrideValues>? dynamicValuesMap;
+  final Map<String, OverrideValuesMap>? dynamicValuesMap;
 
   Size canvasSize = Size.zero;
 
-  JsonPainter(this.canvasDef, this.dynamicValuesMap);
+  PortablePainter(this.canvasDef, this.dynamicValuesMap);
 
   @override
   void paint(Canvas canvas, Size size) {
