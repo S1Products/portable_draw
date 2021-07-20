@@ -1,6 +1,9 @@
 # portable_draw
 
-This project is Flutter custom drawing from JSON file.
+このライブラリは、JSONやXMLなどのファイルに定義された情報を読み込み、Flutter上のキャンバスに描画する機能を提供します。
+
+このライブラリを利用することで、Flutter上の各種コントロールのデザインを外部ファイル形式で動的に切り替えられる様になります。
+（テーマの適用等に利用可能です。）
 
 ## Getting Started
 
