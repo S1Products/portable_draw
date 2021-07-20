@@ -295,7 +295,7 @@ class CanvasDrawer {
   void addPath(Path path, PathDef source) {
     switch (source.pathType) {
       case PathType.Arc:
-        PathArcDef pathDef = source.arcDef!;
+        PathArcDef pathDef = source as PathArcDef;
         Rect rect = calc.calcScalingRect(pathDef.oval, source.boxFit);
         path.addArc(rect, pathDef.startAngle, pathDef.sweepAngle);
         break;
@@ -305,19 +305,19 @@ class CanvasDrawer {
         break;
 
       case PathType.Oval:
-        PathOvalDef pathDef = source.ovalDef!;
+        PathOvalDef pathDef = source as PathOvalDef;
         Rect rect = calc.calcScalingRect(pathDef.oval, source.boxFit);
         path.addOval(rect);
         break;
 
       case PathType.Rect:
-        PathRectDef pathDef = source.rectDef!;
+        PathRectDef pathDef = source as PathRectDef;
         Rect rect = calc.calcScalingRect(pathDef.rect, source.boxFit);
         path.addRect(rect);
         break;
 
       case PathType.RRect:
-        PathRRectDef pathDef = source.rrectDef!;
+        PathRRectDef pathDef = source as PathRRectDef;
         RRect rrect =
             calc.calcScalingRRect(pathDef.rect, pathDef.radius, source.boxFit);
         path.addRRect(rrect);
