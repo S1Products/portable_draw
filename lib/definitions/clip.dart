@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
@@ -17,30 +16,36 @@ enum ClipType {
 
 @JsonSerializable(explicitToJson: true)
 class ClipDef {
-
   ClipType clipType;
 
-  ClipRectDef? clipRectDef;
-
-  ClipRRectDef? clipRRectDef;
-
-  ClipPathDef? clipPathDef;
+  @JsonKey(defaultValue: BoxFit.fill)
+  BoxFit boxFit;
 
   ClipDef({
     required this.clipType,
-    this.clipRectDef,
-    this.clipRRectDef,
-    this.clipPathDef
+    this.boxFit = BoxFit.fill,
   });
 
-  factory ClipDef.fromJson(Map<String, dynamic> json) => _$ClipDefFromJson(json);
   Map<String, dynamic> toJson() => _$ClipDefToJson(this);
+
+  factory ClipDef.fromJson(Map<String, dynamic> json) {
+    switch (json['clipType'] as String) {
+      case 'Rect':
+        return ClipRectDef.fromJson(json);
+      case 'RRect':
+        return ClipRRectDef.fromJson(json);
+      case 'Path':
+        return ClipPathDef.fromJson(json);
+    }
+
+    throw ArgumentError(
+        'Could not found clip type. Please check clip type value from JSON.');
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
-class ClipRectDef {
-
-  RectDef rect;
+class ClipRectDef extends ClipDef {
+  RectDef rectDef;
 
   @JsonKey(defaultValue: ClipOp.intersect)
   ClipOp clipOp;
@@ -48,61 +53,53 @@ class ClipRectDef {
   @JsonKey(defaultValue: true)
   bool doAntiAlias;
 
-  @JsonKey(defaultValue: BoxFit.fill)
-  BoxFit boxFit;
+  ClipRectDef(
+      {required this.rectDef,
+      this.clipOp = ClipOp.intersect,
+      this.doAntiAlias = true,
+      BoxFit boxFit = BoxFit.fill})
+      : super(clipType: ClipType.Rect, boxFit: boxFit);
 
-  ClipRectDef({
-    required this.rect,
-    this.clipOp = ClipOp.intersect,
-    this.doAntiAlias = true,
-    this.boxFit = BoxFit.fill
-  });
-
-  factory ClipRectDef.fromJson(Map<String, dynamic> json) => _$ClipRectDefFromJson(json);
+  factory ClipRectDef.fromJson(Map<String, dynamic> json) =>
+      _$ClipRectDefFromJson(json);
   Map<String, dynamic> toJson() => _$ClipRectDefToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class ClipRRectDef {
-
-  RectDef rect;
+class ClipRRectDef extends ClipDef {
+  RectDef rectDef;
 
   double radius;
 
   @JsonKey(defaultValue: true)
   bool doAntiAlias;
 
-  @JsonKey(defaultValue: BoxFit.fill)
-  BoxFit boxFit;
+  ClipRRectDef(
+      {required this.rectDef,
+      this.radius = 0,
+      this.doAntiAlias = true,
+      BoxFit boxFit = BoxFit.fill})
+      : super(clipType: ClipType.RRect, boxFit: boxFit);
 
-  ClipRRectDef({
-    required this.rect,
-    this.radius = 0,
-    this.doAntiAlias = true,
-    this.boxFit = BoxFit.fill
-  });
-
-  factory ClipRRectDef.fromJson(Map<String, dynamic> json) => _$ClipRRectDefFromJson(json);
+  factory ClipRRectDef.fromJson(Map<String, dynamic> json) =>
+      _$ClipRRectDefFromJson(json);
   Map<String, dynamic> toJson() => _$ClipRRectDefToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class ClipPathDef {
-
+class ClipPathDef extends ClipDef {
   List<PathDef> pathDefList;
 
   @JsonKey(defaultValue: true)
   bool doAntiAlias;
 
-  @JsonKey(defaultValue: BoxFit.fill)
-  BoxFit boxFit;
+  ClipPathDef(
+      {required this.pathDefList,
+      this.doAntiAlias = true,
+      BoxFit boxFit = BoxFit.fill})
+      : super(clipType: ClipType.Path, boxFit: boxFit);
 
-  ClipPathDef({
-    required this.pathDefList,
-    this.doAntiAlias = true,
-    this.boxFit = BoxFit.fill
-  });
-
-  factory ClipPathDef.fromJson(Map<String, dynamic> json) => _$ClipPathDefFromJson(json);
+  factory ClipPathDef.fromJson(Map<String, dynamic> json) =>
+      _$ClipPathDefFromJson(json);
   Map<String, dynamic> toJson() => _$ClipPathDefToJson(this);
 }

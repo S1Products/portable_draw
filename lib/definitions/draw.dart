@@ -4,6 +4,7 @@
 // https://opensource.org/licenses/MIT.
 
 import 'dart:ui';
+
 import 'package:flutter/widgets.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:portable_draw/definitions/common.dart';
@@ -16,7 +17,6 @@ part 'draw.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class PaintDef {
-
   @JsonKey(defaultValue: 0)
   int color;
 
@@ -29,14 +29,14 @@ class PaintDef {
   @JsonKey()
   StrokeCap strokeCap;
 
-  PaintDef({
-    this.color = 0,
-    this.paintingStyle = PaintingStyle.fill,
-    this.strokeWidth = 1,
-    this.strokeCap = StrokeCap.square
-  });
+  PaintDef(
+      {this.color = 0,
+      this.paintingStyle = PaintingStyle.fill,
+      this.strokeWidth = 1,
+      this.strokeCap = StrokeCap.square});
 
-  factory PaintDef.fromJson(Map<String, dynamic> json) => _$PaintDefFromJson(json);
+  factory PaintDef.fromJson(Map<String, dynamic> json) =>
+      _$PaintDefFromJson(json);
   Map<String, dynamic> toJson() => _$PaintDefToJson(this);
 }
 
@@ -57,20 +57,22 @@ enum DrawType {
 
 @JsonSerializable(explicitToJson: true)
 class DrawDef {
-
   DrawType drawType;
 
   PaintDef? paintDef;
 
+  @JsonKey(defaultValue: BoxFit.fill)
+  BoxFit boxFit;
+
   GradientShader? gradientShader;
   MaskFilterDef? maskFilterDef;
 
-  DrawDef({
-    required this.drawType,
-    required this.paintDef,
-    this.gradientShader,
-    this.maskFilterDef
-  });
+  DrawDef(
+      {required this.drawType,
+      required this.paintDef,
+      required this.boxFit,
+      this.gradientShader,
+      this.maskFilterDef});
 
   Map<String, dynamic> toJson() => _$DrawDefToJson(this);
 
@@ -119,7 +121,6 @@ enum FontWeightType {
 
 @JsonSerializable(explicitToJson: true)
 class DrawTextDef extends DrawDef {
-
   String text;
 
   @JsonKey(defaultValue: 0)
@@ -144,294 +145,277 @@ class DrawTextDef extends DrawDef {
   TextDirection textDirection;
 
   @JsonKey()
-  OffsetDef offset;
+  OffsetDef offsetDef;
 
-  @JsonKey(defaultValue: BoxFit.fill)
-  BoxFit boxFit;
+  DrawTextDef(
+      {BoxFit boxFit = BoxFit.fill,
+      GradientShader? gradientShader,
+      MaskFilterDef? maskFilterDef,
+      required this.text,
+      required this.color,
+      required this.offsetDef,
+      this.fontWeightType = FontWeightType.normal,
+      this.fontSize = 12,
+      this.fontFamily = '',
+      this.fontStyle = FontStyle.normal,
+      this.textAlign = TextAlign.start,
+      this.textDirection = TextDirection.ltr})
+      : super(
+            drawType: DrawType.Text,
+            paintDef: null,
+            boxFit: boxFit,
+            gradientShader: gradientShader,
+            maskFilterDef: maskFilterDef);
 
-  DrawTextDef({
-    required PaintDef paintDef,
-    GradientShader? gradientShader,
-    MaskFilterDef? maskFilterDef,
-    required this.text,
-    required this.color,
-    required this.offset,
-    this.fontWeightType = FontWeightType.normal,
-    this.fontSize = 12,
-    this.fontFamily = '',
-    this.fontStyle = FontStyle.normal,
-    this.textAlign = TextAlign.start,
-    this.textDirection = TextDirection.ltr,
-    this.boxFit = BoxFit.fill
-  }) : super(
-    drawType: DrawType.Text,
-    paintDef: paintDef,
-    gradientShader: gradientShader,
-    maskFilterDef: maskFilterDef
-  ) ;
-
-  factory DrawTextDef.fromJson(Map<String, dynamic> json) => _$DrawTextDefFromJson(json);
+  factory DrawTextDef.fromJson(Map<String, dynamic> json) =>
+      _$DrawTextDefFromJson(json);
   Map<String, dynamic> toJson() => _$DrawTextDefToJson(this);
 
-  FontWeight convertFontWeight(){
-
+  FontWeight convertFontWeight() {
     switch (fontWeightType) {
-      case FontWeightType.bold:   return FontWeight.bold;
-      case FontWeightType.normal: return FontWeight.normal;
-      case FontWeightType.w100:   return FontWeight.w100;
-      case FontWeightType.w200:   return FontWeight.w200;
-      case FontWeightType.w300:   return FontWeight.w300;
-      case FontWeightType.w400:   return FontWeight.w400;
-      case FontWeightType.w500:   return FontWeight.w500;
-      case FontWeightType.w600:   return FontWeight.w600;
-      case FontWeightType.w700:   return FontWeight.w700;
-      case FontWeightType.w800:   return FontWeight.w800;
-      case FontWeightType.w900:   return FontWeight.w900;
+      case FontWeightType.bold:
+        return FontWeight.bold;
+      case FontWeightType.normal:
+        return FontWeight.normal;
+      case FontWeightType.w100:
+        return FontWeight.w100;
+      case FontWeightType.w200:
+        return FontWeight.w200;
+      case FontWeightType.w300:
+        return FontWeight.w300;
+      case FontWeightType.w400:
+        return FontWeight.w400;
+      case FontWeightType.w500:
+        return FontWeight.w500;
+      case FontWeightType.w600:
+        return FontWeight.w600;
+      case FontWeightType.w700:
+        return FontWeight.w700;
+      case FontWeightType.w800:
+        return FontWeight.w800;
+      case FontWeightType.w900:
+        return FontWeight.w900;
     }
   }
 }
 
 @JsonSerializable(explicitToJson: true)
 class DrawArcDef extends DrawDef {
-
-  RectDef rect;
+  RectDef rectDef;
   double startAngle;
   double sweepAngle;
 
   @JsonKey(defaultValue: false)
   bool useCenter;
 
-  @JsonKey(defaultValue: BoxFit.fill)
-  BoxFit boxFit;
+  DrawArcDef(
+      {required PaintDef paintDef,
+      BoxFit boxFit = BoxFit.fill,
+      GradientShader? gradientShader,
+      MaskFilterDef? maskFilterDef,
+      required this.rectDef,
+      required this.startAngle,
+      required this.sweepAngle,
+      this.useCenter = false})
+      : super(
+            drawType: DrawType.Arc,
+            paintDef: paintDef,
+            boxFit: boxFit,
+            gradientShader: gradientShader,
+            maskFilterDef: maskFilterDef);
 
-  DrawArcDef({
-    required PaintDef paintDef,
-    GradientShader? gradientShader,
-    MaskFilterDef? maskFilterDef,
-    required this.rect,
-    required this.startAngle,
-    required this.sweepAngle,
-    this.useCenter = false,
-    this.boxFit = BoxFit.fill
-  }) : super(
-      drawType: DrawType.Arc,
-      paintDef: paintDef,
-      gradientShader: gradientShader,
-      maskFilterDef: maskFilterDef
-  ) ;
-
-  factory DrawArcDef.fromJson(Map<String, dynamic> json) => _$DrawArcDefFromJson(json);
+  factory DrawArcDef.fromJson(Map<String, dynamic> json) =>
+      _$DrawArcDefFromJson(json);
   Map<String, dynamic> toJson() => _$DrawArcDefToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
 class DrawCircleDef extends DrawDef {
-
-  OffsetDef offset;
+  OffsetDef offsetDef;
   double radius;
 
-  @JsonKey(defaultValue: BoxFit.fill)
-  BoxFit boxFit;
+  DrawCircleDef(
+      {required PaintDef paintDef,
+      BoxFit boxFit = BoxFit.fill,
+      GradientShader? gradientShader,
+      MaskFilterDef? maskFilterDef,
+      required this.offsetDef,
+      required this.radius})
+      : super(
+            drawType: DrawType.Circle,
+            paintDef: paintDef,
+            boxFit: boxFit,
+            gradientShader: gradientShader,
+            maskFilterDef: maskFilterDef);
 
-  DrawCircleDef({
-    required PaintDef paintDef,
-    GradientShader? gradientShader,
-    MaskFilterDef? maskFilterDef,
-    required this.offset,
-    required this.radius,
-    this.boxFit = BoxFit.fill
-  }) : super(
-      drawType: DrawType.Circle,
-      paintDef: paintDef,
-      gradientShader: gradientShader,
-      maskFilterDef: maskFilterDef
-  ) ;
-
-  factory DrawCircleDef.fromJson(Map<String, dynamic> json) => _$DrawCircleDefFromJson(json);
+  factory DrawCircleDef.fromJson(Map<String, dynamic> json) =>
+      _$DrawCircleDefFromJson(json);
   Map<String, dynamic> toJson() => _$DrawCircleDefToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
 class DrawColorDef extends DrawDef {
-
   int color;
   BlendMode blendMode;
 
-  DrawColorDef({
-    required PaintDef paintDef,
-    GradientShader? gradientShader,
-    MaskFilterDef? maskFilterDef,
-    this.color = 0,
-    this.blendMode = BlendMode.src
-  }) : super(
-      drawType: DrawType.Color,
-      paintDef: paintDef,
-      gradientShader: gradientShader,
-      maskFilterDef: maskFilterDef
-  ) ;
+  DrawColorDef(
+      {required PaintDef paintDef,
+      GradientShader? gradientShader,
+      MaskFilterDef? maskFilterDef,
+      this.color = 0,
+      this.blendMode = BlendMode.src})
+      : super(
+            drawType: DrawType.Color,
+            paintDef: paintDef,
+            boxFit: BoxFit.fill,
+            gradientShader: gradientShader,
+            maskFilterDef: maskFilterDef);
 
-  factory DrawColorDef.fromJson(Map<String, dynamic> json) => _$DrawColorDefFromJson(json);
+  factory DrawColorDef.fromJson(Map<String, dynamic> json) =>
+      _$DrawColorDefFromJson(json);
   Map<String, dynamic> toJson() => _$DrawColorDefToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
 class DrawDRRectDef extends DrawDef {
-
-  RectDef outerRect;
+  RectDef outerRectDef;
   double outerRadius;
 
-  RectDef innerRect;
+  RectDef innerRectDef;
   double innerRadius;
 
-  @JsonKey(defaultValue: BoxFit.fill)
-  BoxFit boxFit;
+  DrawDRRectDef(
+      {required PaintDef paintDef,
+      BoxFit boxFit = BoxFit.fill,
+      GradientShader? gradientShader,
+      MaskFilterDef? maskFilterDef,
+      required this.outerRectDef,
+      required this.outerRadius,
+      required this.innerRectDef,
+      required this.innerRadius})
+      : super(
+            drawType: DrawType.DRRect,
+            paintDef: paintDef,
+            boxFit: boxFit,
+            gradientShader: gradientShader,
+            maskFilterDef: maskFilterDef);
 
-  DrawDRRectDef({
-    required PaintDef paintDef,
-    GradientShader? gradientShader,
-    MaskFilterDef? maskFilterDef,
-    required this.outerRect,
-    required this.outerRadius,
-    required this.innerRect,
-    required this.innerRadius,
-    this.boxFit = BoxFit.fill
-  }) : super(
-      drawType: DrawType.DRRect,
-      paintDef: paintDef,
-      gradientShader: gradientShader,
-      maskFilterDef: maskFilterDef
-  ) ;
-
-  factory DrawDRRectDef.fromJson(Map<String, dynamic> json) => _$DrawDRRectDefFromJson(json);
+  factory DrawDRRectDef.fromJson(Map<String, dynamic> json) =>
+      _$DrawDRRectDefFromJson(json);
   Map<String, dynamic> toJson() => _$DrawDRRectDefToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
 class DrawLineDef extends DrawDef {
+  OffsetDef offsetDef1;
+  OffsetDef offsetDef2;
 
-  OffsetDef offset1;
-  OffsetDef offset2;
+  DrawLineDef(
+      {required PaintDef paintDef,
+      BoxFit boxFit = BoxFit.fill,
+      GradientShader? gradientShader,
+      MaskFilterDef? maskFilterDef,
+      required this.offsetDef1,
+      required this.offsetDef2})
+      : super(
+            drawType: DrawType.Line,
+            paintDef: paintDef,
+            boxFit: boxFit,
+            gradientShader: gradientShader,
+            maskFilterDef: maskFilterDef);
 
-  @JsonKey(defaultValue: BoxFit.fill)
-  BoxFit boxFit;
-
-  DrawLineDef({
-    required PaintDef paintDef,
-    GradientShader? gradientShader,
-    MaskFilterDef? maskFilterDef,
-    required this.offset1,
-    required this.offset2,
-    this.boxFit = BoxFit.fill
-  }) : super(
-      drawType: DrawType.Line,
-      paintDef: paintDef,
-      gradientShader: gradientShader,
-      maskFilterDef: maskFilterDef
-  ) ;
-
-  factory DrawLineDef.fromJson(Map<String, dynamic> json) => _$DrawLineDefFromJson(json);
+  factory DrawLineDef.fromJson(Map<String, dynamic> json) =>
+      _$DrawLineDefFromJson(json);
   Map<String, dynamic> toJson() => _$DrawLineDefToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
 class DrawOvalDef extends DrawDef {
+  RectDef rectDef;
 
-  RectDef rect;
+  DrawOvalDef(
+      {required PaintDef paintDef,
+      BoxFit boxFit = BoxFit.fill,
+      GradientShader? gradientShader,
+      MaskFilterDef? maskFilterDef,
+      required this.rectDef})
+      : super(
+            drawType: DrawType.Oval,
+            paintDef: paintDef,
+            boxFit: boxFit,
+            gradientShader: gradientShader,
+            maskFilterDef: maskFilterDef);
 
-  @JsonKey(defaultValue: BoxFit.fill)
-  BoxFit boxFit;
-
-  DrawOvalDef({
-    required PaintDef paintDef,
-    GradientShader? gradientShader,
-    MaskFilterDef? maskFilterDef,
-    required this.rect,
-    this.boxFit = BoxFit.fill
-  }) : super(
-      drawType: DrawType.Oval,
-      paintDef: paintDef,
-      gradientShader: gradientShader,
-      maskFilterDef: maskFilterDef
-  ) ;
-
-  factory DrawOvalDef.fromJson(Map<String, dynamic> json) => _$DrawOvalDefFromJson(json);
+  factory DrawOvalDef.fromJson(Map<String, dynamic> json) =>
+      _$DrawOvalDefFromJson(json);
   Map<String, dynamic> toJson() => _$DrawOvalDefToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
 class DrawPathDef extends DrawDef {
-
   List<PathDef> pathDefList;
 
-  @JsonKey(defaultValue: BoxFit.fill)
-  BoxFit boxFit;
+  DrawPathDef(
+      {required PaintDef paintDef,
+      BoxFit boxFit = BoxFit.fill,
+      GradientShader? gradientShader,
+      MaskFilterDef? maskFilterDef,
+      required this.pathDefList})
+      : super(
+            drawType: DrawType.Path,
+            paintDef: paintDef,
+            boxFit: boxFit,
+            gradientShader: gradientShader,
+            maskFilterDef: maskFilterDef);
 
-  DrawPathDef({
-    required PaintDef paintDef,
-    GradientShader? gradientShader,
-    MaskFilterDef? maskFilterDef,
-    required this.pathDefList,
-    this.boxFit = BoxFit.fill
-  }) : super(
-      drawType: DrawType.Path,
-      paintDef: paintDef,
-      gradientShader: gradientShader,
-      maskFilterDef: maskFilterDef
-  ) ;
-
-  factory DrawPathDef.fromJson(Map<String, dynamic> json) => _$DrawPathDefFromJson(json);
+  factory DrawPathDef.fromJson(Map<String, dynamic> json) =>
+      _$DrawPathDefFromJson(json);
   Map<String, dynamic> toJson() => _$DrawPathDefToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
 class DrawRectDef extends DrawDef {
+  RectDef rectDef;
 
-  RectDef rect;
+  DrawRectDef(
+      {required PaintDef paintDef,
+      BoxFit boxFit = BoxFit.fill,
+      GradientShader? gradientShader,
+      MaskFilterDef? maskFilterDef,
+      required this.rectDef})
+      : super(
+            drawType: DrawType.Rect,
+            paintDef: paintDef,
+            boxFit: boxFit,
+            gradientShader: gradientShader,
+            maskFilterDef: maskFilterDef);
 
-  @JsonKey(defaultValue: BoxFit.fill)
-  BoxFit boxFit;
-
-  DrawRectDef({
-    required PaintDef paintDef,
-    GradientShader? gradientShader,
-    MaskFilterDef? maskFilterDef,
-    required this.rect,
-    this.boxFit = BoxFit.fill
-  }) : super(
-      drawType: DrawType.Rect,
-      paintDef: paintDef,
-      gradientShader: gradientShader,
-      maskFilterDef: maskFilterDef
-  ) ;
-
-  factory DrawRectDef.fromJson(Map<String, dynamic> json) => _$DrawRectDefFromJson(json);
+  factory DrawRectDef.fromJson(Map<String, dynamic> json) =>
+      _$DrawRectDefFromJson(json);
   Map<String, dynamic> toJson() => _$DrawRectDefToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
 class DrawRrectDef extends DrawDef {
+  RectDef rectDef;
+  double radius;
 
-  RectDef rect;
-  double  radius;
+  DrawRrectDef(
+      {required PaintDef paintDef,
+      BoxFit boxFit = BoxFit.fill,
+      GradientShader? gradientShader,
+      MaskFilterDef? maskFilterDef,
+      required this.rectDef,
+      required this.radius})
+      : super(
+            drawType: DrawType.RRect,
+            paintDef: paintDef,
+            boxFit: boxFit,
+            gradientShader: gradientShader,
+            maskFilterDef: maskFilterDef);
 
-  @JsonKey(defaultValue: BoxFit.fill)
-  BoxFit boxFit;
-
-  DrawRrectDef({
-    required PaintDef paintDef,
-    GradientShader? gradientShader,
-    MaskFilterDef? maskFilterDef,
-    required this.rect,
-    required this.radius,
-    this.boxFit = BoxFit.fill
-  }) : super(
-      drawType: DrawType.RRect,
-      paintDef: paintDef,
-      gradientShader: gradientShader,
-      maskFilterDef: maskFilterDef
-  ) ;
-
-  factory DrawRrectDef.fromJson(Map<String, dynamic> json) => _$DrawRrectDefFromJson(json);
+  factory DrawRrectDef.fromJson(Map<String, dynamic> json) =>
+      _$DrawRrectDefFromJson(json);
   Map<String, dynamic> toJson() => _$DrawRrectDefToJson(this);
 }
 
@@ -439,16 +423,12 @@ class DrawRrectDef extends DrawDef {
 
 @JsonSerializable(explicitToJson: true)
 class MaskFilterDef {
-
   BlurStyle blurStyle;
   double sigma;
 
-  MaskFilterDef({
-    this.blurStyle = BlurStyle.inner,
-    this.sigma = 0
-  });
+  MaskFilterDef({this.blurStyle = BlurStyle.inner, this.sigma = 0});
 
-  factory MaskFilterDef.fromJson(Map<String, dynamic> json) => _$MaskFilterDefFromJson(json);
+  factory MaskFilterDef.fromJson(Map<String, dynamic> json) =>
+      _$MaskFilterDefFromJson(json);
   Map<String, dynamic> toJson() => _$MaskFilterDefToJson(this);
 }
-

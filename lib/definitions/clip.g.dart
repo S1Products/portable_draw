@@ -9,23 +9,14 @@ part of 'clip.dart';
 ClipDef _$ClipDefFromJson(Map<String, dynamic> json) {
   return ClipDef(
     clipType: _$enumDecode(_$ClipTypeEnumMap, json['clipType']),
-    clipRectDef: json['clipRectDef'] == null
-        ? null
-        : ClipRectDef.fromJson(json['clipRectDef'] as Map<String, dynamic>),
-    clipRRectDef: json['clipRRectDef'] == null
-        ? null
-        : ClipRRectDef.fromJson(json['clipRRectDef'] as Map<String, dynamic>),
-    clipPathDef: json['clipPathDef'] == null
-        ? null
-        : ClipPathDef.fromJson(json['clipPathDef'] as Map<String, dynamic>),
+    boxFit:
+        _$enumDecodeNullable(_$BoxFitEnumMap, json['boxFit']) ?? BoxFit.fill,
   );
 }
 
 Map<String, dynamic> _$ClipDefToJson(ClipDef instance) => <String, dynamic>{
       'clipType': _$ClipTypeEnumMap[instance.clipType],
-      'clipRectDef': instance.clipRectDef?.toJson(),
-      'clipRRectDef': instance.clipRRectDef?.toJson(),
-      'clipPathDef': instance.clipPathDef?.toJson(),
+      'boxFit': _$BoxFitEnumMap[instance.boxFit],
     };
 
 K _$enumDecode<K, V>(
@@ -60,25 +51,6 @@ const _$ClipTypeEnumMap = {
   ClipType.RRect: 'RRect',
 };
 
-ClipRectDef _$ClipRectDefFromJson(Map<String, dynamic> json) {
-  return ClipRectDef(
-    rect: RectDef.fromJson(json['rect'] as Map<String, dynamic>),
-    clipOp: _$enumDecodeNullable(_$ClipOpEnumMap, json['clipOp']) ??
-        ClipOp.intersect,
-    doAntiAlias: json['doAntiAlias'] as bool? ?? true,
-    boxFit:
-        _$enumDecodeNullable(_$BoxFitEnumMap, json['boxFit']) ?? BoxFit.fill,
-  );
-}
-
-Map<String, dynamic> _$ClipRectDefToJson(ClipRectDef instance) =>
-    <String, dynamic>{
-      'rect': instance.rect.toJson(),
-      'clipOp': _$ClipOpEnumMap[instance.clipOp],
-      'doAntiAlias': instance.doAntiAlias,
-      'boxFit': _$BoxFitEnumMap[instance.boxFit],
-    };
-
 K? _$enumDecodeNullable<K, V>(
   Map<K, V> enumValues,
   dynamic source, {
@@ -90,11 +62,6 @@ K? _$enumDecodeNullable<K, V>(
   return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
-const _$ClipOpEnumMap = {
-  ClipOp.difference: 'difference',
-  ClipOp.intersect: 'intersect',
-};
-
 const _$BoxFitEnumMap = {
   BoxFit.fill: 'fill',
   BoxFit.contain: 'contain',
@@ -105,22 +72,48 @@ const _$BoxFitEnumMap = {
   BoxFit.scaleDown: 'scaleDown',
 };
 
+ClipRectDef _$ClipRectDefFromJson(Map<String, dynamic> json) {
+  return ClipRectDef(
+    rectDef: RectDef.fromJson(json['rectDef'] as Map<String, dynamic>),
+    clipOp: _$enumDecodeNullable(_$ClipOpEnumMap, json['clipOp']) ??
+        ClipOp.intersect,
+    doAntiAlias: json['doAntiAlias'] as bool? ?? true,
+    boxFit:
+        _$enumDecodeNullable(_$BoxFitEnumMap, json['boxFit']) ?? BoxFit.fill,
+  )..clipType = _$enumDecode(_$ClipTypeEnumMap, json['clipType']);
+}
+
+Map<String, dynamic> _$ClipRectDefToJson(ClipRectDef instance) =>
+    <String, dynamic>{
+      'clipType': _$ClipTypeEnumMap[instance.clipType],
+      'boxFit': _$BoxFitEnumMap[instance.boxFit],
+      'rectDef': instance.rectDef.toJson(),
+      'clipOp': _$ClipOpEnumMap[instance.clipOp],
+      'doAntiAlias': instance.doAntiAlias,
+    };
+
+const _$ClipOpEnumMap = {
+  ClipOp.difference: 'difference',
+  ClipOp.intersect: 'intersect',
+};
+
 ClipRRectDef _$ClipRRectDefFromJson(Map<String, dynamic> json) {
   return ClipRRectDef(
-    rect: RectDef.fromJson(json['rect'] as Map<String, dynamic>),
+    rectDef: RectDef.fromJson(json['rectDef'] as Map<String, dynamic>),
     radius: (json['radius'] as num).toDouble(),
     doAntiAlias: json['doAntiAlias'] as bool? ?? true,
     boxFit:
         _$enumDecodeNullable(_$BoxFitEnumMap, json['boxFit']) ?? BoxFit.fill,
-  );
+  )..clipType = _$enumDecode(_$ClipTypeEnumMap, json['clipType']);
 }
 
 Map<String, dynamic> _$ClipRRectDefToJson(ClipRRectDef instance) =>
     <String, dynamic>{
-      'rect': instance.rect.toJson(),
+      'clipType': _$ClipTypeEnumMap[instance.clipType],
+      'boxFit': _$BoxFitEnumMap[instance.boxFit],
+      'rectDef': instance.rectDef.toJson(),
       'radius': instance.radius,
       'doAntiAlias': instance.doAntiAlias,
-      'boxFit': _$BoxFitEnumMap[instance.boxFit],
     };
 
 ClipPathDef _$ClipPathDefFromJson(Map<String, dynamic> json) {
@@ -131,12 +124,13 @@ ClipPathDef _$ClipPathDefFromJson(Map<String, dynamic> json) {
     doAntiAlias: json['doAntiAlias'] as bool? ?? true,
     boxFit:
         _$enumDecodeNullable(_$BoxFitEnumMap, json['boxFit']) ?? BoxFit.fill,
-  );
+  )..clipType = _$enumDecode(_$ClipTypeEnumMap, json['clipType']);
 }
 
 Map<String, dynamic> _$ClipPathDefToJson(ClipPathDef instance) =>
     <String, dynamic>{
+      'clipType': _$ClipTypeEnumMap[instance.clipType],
+      'boxFit': _$BoxFitEnumMap[instance.boxFit],
       'pathDefList': instance.pathDefList.map((e) => e.toJson()).toList(),
       'doAntiAlias': instance.doAntiAlias,
-      'boxFit': _$BoxFitEnumMap[instance.boxFit],
     };
