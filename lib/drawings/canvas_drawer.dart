@@ -157,12 +157,16 @@ class CanvasDrawer {
 
     TextPainter textPainter = TextPainter(
         text: span,
-        textAlign: textDef.textAlign,
+        textAlign: _getValue(overrideValueMap,
+            OverrideValuesMap.ATTRIBUTE_TEXT_ALIGN, textDef.textAlign),
         textDirection: textDef.textDirection);
 
-    Offset offset = calc.calcScalingOffset(textDef.offsetDef, textDef.boxFit);
+    Offset offset = calc.calcScalingOffset(
+        _getValue(overrideValueMap, OverrideValuesMap.ATTRIBUTE_OFFSET,
+            textDef.offsetDef),
+        textDef.boxFit);
 
-    textPainter.layout(minWidth: 0, maxWidth: calc.size.width - offset.dx * 2);
+    textPainter.layout(minWidth: calc.size.width - offset.dx * 2);
 
     textPainter.paint(canvas, offset);
   }
