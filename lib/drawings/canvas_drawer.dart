@@ -147,7 +147,8 @@ class CanvasDrawer {
         color: _getValue(overrideValueMap, OverrideValuesMap.ATTRIBUTE_COLOR,
             Color(textDef.color)),
         fontWeight: textDef.convertFontWeight(),
-        fontSize: textSize,
+        fontSize: _getValue(
+            overrideValueMap, OverrideValuesMap.ATTRIBUTE_TEXT_SIZE, textSize),
         fontFamily: textDef.fontFamily,
         fontStyle: textDef.fontStyle,
       ),

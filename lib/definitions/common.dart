@@ -134,6 +134,7 @@ class ScalingDef {
 /// Store override data for drawing JSON file.
 class OverrideValuesMap {
   static const ATTRIBUTE_TEXT = 'text';
+  static const ATTRIBUTE_TEXT_SIZE = 'textSize';
   static const ATTRIBUTE_COLOR = 'color';
   static const ATTRIBUTE_RECT = 'rect';
   static const ATTRIBUTE_OUTER_RECT = 'outerRect';
